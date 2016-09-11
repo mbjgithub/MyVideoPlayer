@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <style>
+    .d{
+      width:100%;
+      height:500px;
+      border:1px solid red;
+    }
+    .d1{
+      background: red;
+    }
+    .d2{
+      background: green;
+    }
+     .d3{
+      background: blue;
+    }
+    .d4{
+      background:gold;
+    }
+  </style>
+  <script src="jquery-1.12.2.js" type="text/javascript"></script>
+  <script>
+   $(document).ready(function(){
+    var np={};
+    var clientHeight=$(window).height();
+    var h=10;
+    var imgER=$("<img src='bdpz.png' />");
+    imgER.css({"width":160,"height":160});
+    imgER.css({"position":"absolute","display":"inline-block","top":clientHeight-imgER.height(),"left":340});
+    imgER.css("visibility","hidden");
+    $(".d1.d").after(imgER);
+    var img=$("<img src='a1-1.png' />");
+    img.css("position","absolute");
+    img.css("display","inline-block");
+    img.css("visibility","hidden");
+    img.css("left",0);
+    img.css("top",clientHeight);
+    img.css("width",615);
+    img.css("height",465);
+    var count=parseInt(img.height()/h);
+   // console.log(count);
+    var tCount=1;
+    var cun=1;
+    var t;
+    $(".d1.d").after(img);
+    np.move=function(){
+      if(tCount<=count){
+        img.css("top",clientHeight-tCount*h);
+        img.css("clip","rect(0 0 0 "+tCount*h);
+        img.css("visibility","visible");
+        if(tCount>17){
+        	imgER.css("top",imgER.position().top-h);//要进行count次的执行，所以这里要控制好h的大小
+            //console.log(imgER.position().top-h);
+            imgER.css("visibility","visible");
+        }
+        tCount++;
+    }else{
+      window.clearInterval(timeInterval);
+      tCount=1;
+      t=window.setInterval(np.m,100);
+     }
+    };
+    np.m=function(){
+       imgER.css("top",imgER.position().top-h);
+       cun++;
+       if(cun==4){
+       	clearInterval(t);
+       	cun=1;
+       	t=window.setInterval(np.back,100);
+       }
+    };
+    np.back=function(){
+       imgER.css("top",imgER.position().top+h);
+       cun++;
+       if(cun==4){
+       	clearInterval(t);
+       	cun=1;
+       }
+    };
+    var timeInterval=window.setInterval(np.move,10);;
+    var flag=false;
+    $(window).scroll(function(){
+        if($(window).scrollTop()>$(window).height()){
+          flag=true;
+          img.css("visibility","hidden");
+          img.css("top",clientHeight);
+          img.css("visibility","hidden");
+          imgER.css("top",clientHeight-imgER.height());
+        }
+        if(flag==true){
+          if($(window).scrollTop()<$(window).height()){
+            flag=false;
+            clearInterval(timeInterval);
+            timeInterval=window.setInterval(np.move,10);
+          }
+        }
+    });
+});
+  </script>
+ </head>
+ <body>
+  <div class="d d1"></div>
+  <div class="d d2"></div>
+  <div class="d d3"></div>
+  <div class="d d4"></div>
+ </body>
+</html>
